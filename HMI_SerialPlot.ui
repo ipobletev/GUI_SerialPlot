@@ -50,7 +50,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="comboBox_comserial">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -80,17 +80,17 @@
      <string>SERIAL COM</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="SerialEnter">
+   <widget class="QPushButton" name="BT_Connect">
     <property name="geometry">
      <rect>
       <x>60</x>
       <y>110</y>
-      <width>211</width>
+      <width>101</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Initializate</string>
+     <string>Connect</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="spinBox">
@@ -203,7 +203,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="serial_refresh">
+   <widget class="QPushButton" name="BT_Refresh">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -299,7 +299,7 @@
      <string>Bauds:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="button_clearall">
+   <widget class="QPushButton" name="BT_clear">
     <property name="geometry">
      <rect>
       <x>600</x>
@@ -310,6 +310,19 @@
     </property>
     <property name="text">
      <string>Clear Data</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BT_Disconnect">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>110</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Disconnect</string>
     </property>
    </widget>
   </widget>
