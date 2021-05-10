@@ -1,9 +1,9 @@
-from PySide2.QtCore import pyqtSignal,QObject
-import serial,serial.tools.list.ports
+from PySide2.QtCore import Signal,QObject
+import serial, serial.tools.list_ports
 from threading import Thread, Event
 
-class serial_communication(QObject):
-    data_receive = pyqtSignal(str)
+class SME_Serial_Communication(QObject):
+    data_receive = Signal(str)
 
     def __init__(self):
         super().__init__()
@@ -12,19 +12,21 @@ class serial_communication(QObject):
 
         self.baudrates = ['1200','2400','4800','9600','19200','38400','115200']
         self.serial_ports = []
+        self.text_serial_ports = []
 
         self.thread_h = None
         self.alive = Event()
     
     def ports_availables(self):
         self.serial_ports = [port.device for port in serial.tools.list_ports.comports()]
+        self.text_serial_ports = [str(onePort) for onePort in serial.tools.list_ports.comports()]
         
     def serial_connection(self):
         try:
             self.serial_com.open()
         except:
                 pass
-        if(self.serial_com.is_open)
+        if(self.serial_com.is_open):
             self.start_thread()
     
     def serial_disconnect(self):

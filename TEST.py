@@ -1,21 +1,22 @@
 import sys
 from HMI_SerialPlot import *
 from PySide2.QtCore import QTimer
-from SME_SerialCom import serial_communication
+from SME_SerialCom import SME_Serial_Communication
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
-class MyApp(MainWindow):
+class MyApp(QMainWindow):
     def __init__(self,*args,**kwargs):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.serial = serial_communication()
-        self.ports_availables()
+        self.serial = SME_Serial_Communication()
+        self.serial.ports_availables()
         self.data_1=0.0
 
         self.serial.data_receive.connect(self.data_serial)
-        self.ui.comboBox_baud.addItem(self.serial.baudrates)
-        self.ui.comboBox.setCurrentText("9600")
+        self.ui.ComboBox_Baud.addItems(self.serial.baudrates)
+        self.ui.ComboBox_Baud.setCurrentText("9600")
 
         self.ui.BT_Refresh.clicked.connect(self.clickbutton_refresh)
         self.ui.BT_Connect.clicked.connect(self.clickbutton_connect)
@@ -26,9 +27,9 @@ class MyApp(MainWindow):
         self.data_1 = float(data)
 
     def clickbutton_connect(self):
-
-        port = COM4
-        baud = self.comboBox_baud.currentText()
+        index = self.ui.ComboBox_PortSerial.currentIndex()
+        port = self.serial.serial_ports[index]
+        baud = self.ui.ComboBox_Baud.currentText()
 
         self.serial.serial_ports = port
         self.serial.baudrates = baud
@@ -41,8 +42,8 @@ class MyApp(MainWindow):
     def clickbutton_refresh(self):
 
         self.serial.ports_availables()
-        self.ui.comboBox.clear()
-        self.ui.comboBox.addItems(self.serial.serial_ports)
+        self.ui.ComboBox_PortSerial.clear()
+        self.ui.ComboBox_PortSerial.addItems(self.serial.text_serial_ports)
         
     def update_visual_data(self):
         self.data_acquisition()
