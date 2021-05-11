@@ -289,7 +289,7 @@
      <string>Bauds:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="BT_clear">
+   <widget class="QPushButton" name="BT_Clear">
     <property name="geometry">
      <rect>
       <x>600</x>
@@ -313,6 +313,19 @@
     </property>
     <property name="text">
      <string>Disconnect</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BT_ModifyGraph">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>450</y>
+      <width>71</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modify</string>
     </property>
    </widget>
   </widget>
