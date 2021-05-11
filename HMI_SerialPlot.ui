@@ -40,7 +40,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="PlotWidget" name="graphicsView">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -341,6 +341,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

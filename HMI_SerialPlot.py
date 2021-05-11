@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from pyqtgraph import PlotWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.label.setScaledContents(True)
         self.label.setWordWrap(False)
         self.label.setObjectName("label")
-        self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
+        self.graphicsView = PlotWidget(self.centralwidget)
         self.graphicsView.setGeometry(QtCore.QRect(50, 140, 761, 291))
         self.graphicsView.setObjectName("graphicsView")
         self.ComboBox_PortSerial = QtWidgets.QComboBox(self.centralwidget)

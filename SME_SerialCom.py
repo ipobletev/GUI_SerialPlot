@@ -24,14 +24,12 @@ class SME_Serial_Communication(QObject):
     def serial_connection(self):
         try:
             self.serial_com.open()
-            print("Serial port: Open")
         except:
             print("Error!: Cannot open serial port")
             pass
 
         if(self.serial_com.is_open):
             self.start_thread()
-            print("Start thread")
     
     def serial_disconnect(self):
         self.stop_thread()
