@@ -1,6 +1,6 @@
 import sys
 import os
-from HMI_SerialPlot import *
+from GUI_pyqt5 import *
 from PySide2.QtCore import QTimer
 from SME_SerialCom import SME_Serial_Communication
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -118,7 +118,7 @@ class MyApp(QMainWindow):
         self.ui.TL_label_x.setText(str(format(self.cont_x, '.1f')))
         self.ui.TL_label_y.setText(str(format(self.data_1, '.3f')))
         self.ui.TL_label_time.setText(str(format(self.timeacquisition, '.1f')))
-        
+
         #Update Plot Graph
         self.data_line.setData(self.x, self.y)
 
