@@ -8,9 +8,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
-# Command for GUI conversion
-# pyuic5 -x GUI_pyqt5.ui -o GUI_pyqt5.py
-
 class MyApp(QMainWindow):
     def __init__(self,*args,**kwargs):
         super().__init__()
