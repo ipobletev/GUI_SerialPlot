@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from pyqtgraph import PlotWidget
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -46,6 +46,9 @@ class Ui_MainWindow(object):
         self.BT_Connect.setObjectName("BT_Connect")
         self.spinBox = QtWidgets.QSpinBox(self.centralwidget)
         self.spinBox.setGeometry(QtCore.QRect(130, 450, 81, 22))
+        self.spinBox.setMinimum(-999999999)
+        self.spinBox.setMaximum(999999999)
+        self.spinBox.setProperty("value", 5)
         self.spinBox.setObjectName("spinBox")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(50, 450, 71, 16))
@@ -65,6 +68,8 @@ class Ui_MainWindow(object):
         self.label_4.setObjectName("label_4")
         self.spinBox_2 = QtWidgets.QSpinBox(self.centralwidget)
         self.spinBox_2.setGeometry(QtCore.QRect(130, 480, 81, 22))
+        self.spinBox_2.setMinimum(-999999999)
+        self.spinBox_2.setMaximum(999999999)
         self.spinBox_2.setObjectName("spinBox_2")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(240, 450, 71, 21))
@@ -81,6 +86,7 @@ class Ui_MainWindow(object):
         self.comboBox_2.addItem("")
         self.spinBox_3 = QtWidgets.QSpinBox(self.centralwidget)
         self.spinBox_3.setGeometry(QtCore.QRect(320, 480, 91, 22))
+        self.spinBox_3.setMaximum(9999)
         self.spinBox_3.setObjectName("spinBox_3")
         self.BT_Refresh = QtWidgets.QPushButton(self.centralwidget)
         self.BT_Refresh.setGeometry(QtCore.QRect(190, 20, 81, 23))
@@ -151,6 +157,7 @@ class Ui_MainWindow(object):
         self.BT_Clear.setText(_translate("MainWindow", "Clear Data"))
         self.BT_Disconnect.setText(_translate("MainWindow", "Disconnect"))
         self.BT_ModifyGraph.setText(_translate("MainWindow", "Modify"))
+from pyqtgraph import PlotWidget
 
 
 if __name__ == "__main__":

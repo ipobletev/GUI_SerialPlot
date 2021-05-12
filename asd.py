@@ -12,7 +12,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.graphWidget = pg.PlotWidget()
         self.setCentralWidget(self.graphWidget)
-
+        self.graphWidget.setMouseEnabled(x=False, y=False)
         self.x = list(range(100))  # 100 time points
         self.y = [randint(0,100) for _ in range(100)]  # 100 data points
 

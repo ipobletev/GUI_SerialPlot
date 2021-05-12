@@ -27,15 +27,20 @@ class MyApp(QMainWindow):
         self.ui.BT_Connect.clicked.connect(self.clickbutton_connect)
         self.ui.BT_Disconnect.clicked.connect(self.clickbutton_disconnect)
         self.ui.BT_Clear.clicked.connect(self.clickbutton_cleardata)
+        self.ui.BT_ModifyGraph.clicked.connect(self.clickbutton_ModifyGraph)
 
         # Set up GUI configuration
+        #self.graphWidget = pg.PlotWidget()
 
-        self.x = list(range(100))  # 100 time points
-        self.y = [randint(0,100) for _ in range(100)]  # 100 data points
+
+        self.x = list(range(-100,0))  # 100 time points
+        self.y = [0 for _ in range(100)]  # 100 data points
+
+
         #Add Background colour to white
         self.ui.graphicsView.setBackground('w')
         # Add Title
-        self.ui.graphicsView.setTitle("Your Title Here", color="b", size="15pt")
+        #self.ui.graphicsView.setTitle("Plot1", color="b", size="15pt")
         # Add Axis Labels
         styles = {"color": "#f00", "font-size": "20px"}
         self.ui.graphicsView.setLabel("left", "Voltage [V]", **styles)
@@ -45,13 +50,20 @@ class MyApp(QMainWindow):
         #Add grid
         self.ui.graphicsView.showGrid(x=True, y=True)
         #Set Range
+        
         self.ui.graphicsView.setXRange(0, 100, padding=0)
         self.ui.graphicsView.setYRange(0, 5, padding=0)
+        self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
+        
         #Set legend plot
         pen = pg.mkPen(color=(255, 0, 0))
+        #self.ui.graphicsView.setData(0, 0)
+        #self.ui.graphicsView.clear()
+        #self.ui.graphicsView.resize(500,200)
+        self.ui.graphicsView.setMouseEnabled(x=False, y=False)
+
         self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=pen)
-        self.ui.graphicsView.clear()
-        self.ui.graphicsView.resize(500,200)
+
 
     def data_serial(self,data):
         self.data_1 = float(data)
@@ -60,13 +72,37 @@ class MyApp(QMainWindow):
         self.ui.lineEdit.setText(str(self.data_1))
 
         #Update Graph Plot
+        #self.x = self.x[1:]  # Remove the first y element.
+        #self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
+
+        #self.y = self.y[1:]  # Remove the first
+        #self.y.append( self.data_1)  # Add a new random value.
+
+        #self.data_line.setData(self.x, self.y)  # Update the data.
+        
+        
         self.x = self.x[1:]  # Remove the first y element.
         self.x.append(self.x[-1] + 1)  # Add a new value 1 higher than the last.
 
         self.y = self.y[1:]  # Remove the first
-        self.y.append( self.data_1)  # Add a new random value.
+        self.y.append(self.data_1)
 
-        self.data_line.setData(self.x, self.y)  # Update the data.
+        self.data_line.setData(self.x, self.y)
+
+
+    def clickbutton_ModifyGraph(self):
+        limit_axis_py = self.ui.spinBox.value()
+        limit_axis_ny = self.ui.spinBox_2.value()
+        limit_range_x = self.ui.spinBox_3.value()
+        range_type = self.ui.comboBox_2.currentText()
+
+        self.ui.graphicsView.setXRange(0, limit_range_x, padding=0)
+        self.ui.graphicsView.setYRange(limit_axis_ny, limit_axis_py, padding=0)
+
+        if range_type == "Static":    
+            self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
+        if range_type == "AutoAdjustX":
+            print("a")
 
     def clickbutton_connect(self):
         index = self.ui.ComboBox_PortSerial.currentIndex()
@@ -91,6 +127,15 @@ class MyApp(QMainWindow):
 
     def clickbutton_cleardata(self):
         self.ui.lineEdit.setText("")
+
+        #self.ui.graphicsView.clear()
+        self.x = list(range(-100,0))  # 100 time points
+        self.y = [0 for _ in range(100)]  # 100 data points
+        self.data_line.setData(self.x, self.y)
+        self.ui.graphicsView.setXRange(0, 100, padding=0)
+        self.ui.graphicsView.setYRange(0, 5, padding=0)
+        self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
