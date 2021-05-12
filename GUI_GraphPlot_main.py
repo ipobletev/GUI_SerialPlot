@@ -1,12 +1,29 @@
+################################################################################
+## Proyect:
+## Autor: Ismael Poblete
+## Date: 
+## Brief:
+## 
+##
+################################################################################
+
+###IMPORTS
 import sys
 import os
-from GUI_pyqt5 import *
 from PySide2.QtCore import QTimer
-from SME_SerialCom import SME_Serial_Communication
 from PyQt5.QtWidgets import QApplication, QMainWindow
-
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
+###SME
+from SME_SerialCom import SME_Serial_Communication
+
+## ==> SPLASH SCREEN
+
+## ==> MAIN WINDOW
+from GUI_pyqt5 import *
+
+
+
 
 class MyApp(QMainWindow):
     def __init__(self,*args,**kwargs):
