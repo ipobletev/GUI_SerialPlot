@@ -1,8 +1,8 @@
 ################################################################################
-## Proyect:
+## Proyect: 
 ## Autor: Ismael Poblete
-## Date: 
-## Brief:
+## Date: 13-05-2021
+## Brief: Program
 ## 
 ##
 ################################################################################
@@ -10,18 +10,23 @@
 ###IMPORTS
 import sys
 import os
-from PySide2.QtCore import QTimer
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect
+from PyQt5.QtCore import Qt, QTimer
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
+
+from PyQt5 import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+
 ###SME
 from SME_SerialCom import SME_Serial_Communication
 
 ## ==> SPLASH SCREEN
-
+from GUI_SplashScreen import *
 ## ==> MAIN WINDOW
 from GUI_pyqt5 import *
-
 
 
 
@@ -175,8 +180,56 @@ class MyApp(QMainWindow):
         self.cont_x=0
         self.timeacquisition=0.0
 
+class SplashScreen(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_SplashScreen()
+        self.ui.setupUi(self)
+        
+
+        ## UI ==> INTERFACE CODES
+        ########################################################################
+        ## REMOVE TITLE BAR
+        self.setWindowFlags(Qt.SplashScreen | Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        ## DROP SHADOW EFFECT
+        self.shadow = QtWidgets.QGraphicsDropShadowEffect(self)
+        self.shadow.setXOffset(0)
+        self.shadow.setYOffset(0)
+        self.shadow.setBlurRadius(30)
+        self.shadow.setColor(QColor(0, 0, 0, 60))
+        self.setGraphicsEffect(self.shadow)  
+
+        self.show()
+        ## QTIMER ==> START
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.progress_bar)
+        # TIMER IN MILLISECONDS
+        self.timer.start(35)
+        self.counter = 0
+
+    def progress_bar(self):
+
+        # SET VALUE TO PROGRESS BAR
+        self.ui.progressBar.setValue(self.counter)
+
+        # CLOSE SPLASH SCREE AND OPEN APP
+        if self.counter > 100:
+            # STOP TIMER
+            self.timer.stop()
+
+            # SHOW MAIN WINDOW
+            self.main = MyApp()
+            self.main.show()
+
+            # CLOSE SPLASH SCREEN
+            self.close()
+
+        # INCREASE COUNTER
+        self.counter += 1    
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    my_app = MyApp()
-    my_app.show()
+    window = SplashScreen()
     sys.exit(app.exec_())
