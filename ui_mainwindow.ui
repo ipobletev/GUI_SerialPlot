@@ -6,16 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>846</width>
-    <height>529</height>
+    <width>877</width>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>SME - SerialPlot</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../SME-trans.png</normaloff>../../SME-trans.png</iconset>
+    <normaloff>SME-trans.png</normaloff>SME-trans.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
@@ -38,16 +38,6 @@
     </property>
     <property name="wordWrap">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="PlotWidget" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>140</y>
-      <width>761</width>
-      <height>291</height>
-     </rect>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -408,7 +398,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -475,38 +465,30 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="PlotWidget" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
+      <width>761</width>
+      <height>291</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>50</x>
       <y>20</y>
-      <width>223</width>
+      <width>231</width>
       <height>108</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_7">
      <item row="0" column="0">
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0" colspan="3">
-        <widget class="QLabel" name="label_2">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>SERIAL COM</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QPushButton" name="BT_Refresh">
-         <property name="text">
-          <string>Refresh</string>
-         </property>
-        </widget>
+       <item row="1" column="1" colspan="2">
+        <widget class="QComboBox" name="ComboBox_Baud"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_7">
@@ -522,11 +504,22 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QComboBox" name="ComboBox_Baud"/>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="BT_Refresh">
+         <property name="text">
+          <string>Refresh</string>
+         </property>
+        </widget>
        </item>
        <item row="2" column="0" colspan="4">
         <widget class="QComboBox" name="ComboBox_PortSerial"/>
+       </item>
+       <item row="3" column="2" colspan="2">
+        <widget class="QPushButton" name="BT_Disconnect">
+         <property name="text">
+          <string>Disconnect</string>
+         </property>
+        </widget>
        </item>
        <item row="3" column="0" colspan="2">
         <widget class="QPushButton" name="BT_Connect">
@@ -535,10 +528,17 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="2" colspan="2">
-        <widget class="QPushButton" name="BT_Disconnect">
+       <item row="0" column="0" colspan="3">
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Disconnect</string>
+          <string>SERIAL COM</string>
          </property>
         </widget>
        </item>
@@ -548,7 +548,7 @@
       <widget class="QFrame" name="Indicador">
        <property name="styleSheet">
         <string notr="true">border-radius:130px;
-background-color: rgb(225, 225, 225);
+background-color:rgb(225, 225, 225);
 </string>
        </property>
        <property name="frameShape">
