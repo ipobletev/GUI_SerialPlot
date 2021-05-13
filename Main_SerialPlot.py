@@ -37,7 +37,7 @@ class MyApp(QMainWindow):
         self.ui.setupUi(self)
 
         # Initialize principal definitions
-        self.range_x_data = 100
+        self.range_x_data = 10
         self.axis_p_y = 5
         self.axis_n_y = 0
         self.factor_ksum = 0
@@ -82,12 +82,12 @@ class MyApp(QMainWindow):
         self.ui.BT_Connect.clicked.connect(self.clickbutton_connect)
         self.ui.BT_Disconnect.clicked.connect(self.clickbutton_disconnect)
         self.ui.BT_Clear.clicked.connect(self.clickbutton_cleardata)
-        self.ui.BT_ModifyGraph.clicked.connect(self.clickbutton_ModifyRangeGraph)
 
         # Set Up Plot Graph
-        self.x=[]
-        self.y=[]
+        self.x=[self.range_x_data]
+        self.y=[self.range_x_data]
         self.cont_x=0;
+
         #Add Background colour to white
         self.ui.graphicsView.setBackground('w')
         # Add Title
@@ -102,7 +102,7 @@ class MyApp(QMainWindow):
         self.ui.graphicsView.showGrid(x=True, y=True)
         #Set Range
         self.ui.graphicsView.setXRange(0, self.range_x_data, padding=0)
-        self.ui.graphicsView.setYRange(0, 5, padding=0)
+        self.ui.graphicsView.setYRange(0, self.axis_p_y, padding=0)
         self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
         #Set legend plot
         pen = pg.mkPen(color=(255, 0, 0))
@@ -113,7 +113,7 @@ class MyApp(QMainWindow):
 
         limit_axis_py = self.ui.spinBox_limit_py.value()
         limit_axis_ny = self.ui.spinBox_limit_ny.value()
-        limit_range_x = self.ui.spinBox_range_xvalue.value()
+
         self.range_type = self.ui.ComboBox_rangetype.currentText()
         self.ui.graphicsView.setYRange(limit_axis_ny, limit_axis_py, padding=0)
 
@@ -121,15 +121,13 @@ class MyApp(QMainWindow):
         self.data_1 = (float(data) * float(self.ui.TL_factor_multiplier.text())) + float(self.ui.TL_factor_sum.text())
 
         #Process data
-        self.x.append(self.cont_x)
+        if((len(self.y)>int(self.range_x_data)) and (self.range_type == "Static")):
+
+            self.x = self.x[1:]  # Remove the first X element.
+            self.y = self.y[1:]  # Remove the first Y element.
+
+        self.x.append(self.cont_x)  # Add a new value 1 higher than the last.
         self.y.append(self.data_1)  # Add a new random value.
-        if((len(self.y)>int(limit_range_x)) and (self.range_type == "Static")):
-
-            self.x = self.x[1:]  # Remove the first y element.
-            self.x.append(self.cont_x)  # Add a new value 1 higher than the last.
-
-            self.y = self.y[1:]  # Remove the first
-            self.y.append(self.data_1)  # Add a new random value.
         
         self.timeacquisition = float(self.ui.TL_factor_time.text()) * float(self.cont_x)
 
@@ -143,16 +141,11 @@ class MyApp(QMainWindow):
 
         self.cont_x+=1
 
-    def clickbutton_ModifyRangeGraph(self):
-        self.x=[]
-        self.y=[]
-        limit_range_x_1 = self.ui.spinBox_range_xvalue.value()
-        range_type = self.ui.ComboBox_rangetype.currentText()
-        limit_range_x_2 = self.cont_x - limit_range_x_1
-        self.ui.graphicsView.setXRange(limit_range_x_1, limit_range_x_2 ,padding=0)
-        self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
-
     def clickbutton_connect(self):
+        self.x *= 0
+        self.y *= 0
+        self.x=[self.range_x_data]
+        self.y=[self.range_x_data]
         index = self.ui.ComboBox_PortSerial.currentIndex()
         port = self.serial.serial_ports[index]
         baud = self.ui.ComboBox_Baud.currentText()
@@ -176,7 +169,20 @@ class MyApp(QMainWindow):
     def clickbutton_cleardata(self):
         self.ui.TL_label_x.setText("")
         self.ui.TL_label_y.setText("")
-        self.clickbutton_ModifyRangeGraph()
+
+        #Get the new range value and clear plot x and y data
+        self.range_x_data = self.ui.spinBox_range_xvalue.value()
+        self.x *= 0
+        self.y *= 0
+        self.x=[self.range_x_data]
+        self.y=[self.range_x_data]
+
+        #Set limits 1________2
+        limit_range_x_1 = self.cont_x
+        limit_range_x_2 = limit_range_x_1 + self.range_x_data
+        self.ui.graphicsView.setXRange(limit_range_x_1, limit_range_x_2 ,padding=0)
+        self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
+
         self.cont_x=0
         self.timeacquisition=0.0
 
@@ -205,7 +211,7 @@ class SplashScreen(QMainWindow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.progress_bar)
         # TIMER IN MILLISECONDS
-        self.timer.start(35)
+        self.timer.start(10)
         self.counter = 0
 
     def progress_bar(self):

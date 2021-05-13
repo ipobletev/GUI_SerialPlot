@@ -31,7 +31,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../SME-trans.png</pixmap>
+     <pixmap>SME-trans.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -50,7 +50,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -196,7 +196,7 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1" colspan="2">
+     <item row="0" column="1">
       <widget class="QLabel" name="label_13">
        <property name="font">
         <font>
@@ -215,7 +215,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -282,7 +282,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -373,7 +373,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>163</x>
@@ -478,15 +478,15 @@
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>623</x>
+      <x>560</x>
       <y>440</y>
-      <width>191</width>
-      <height>25</height>
+      <width>251</width>
+      <height>49</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label_5">
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_16">
        <property name="font">
         <font>
          <pointsize>10</pointsize>
@@ -502,41 +502,43 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QSpinBox" name="spinBox_range_xvalue">
-       <property name="maximum">
-        <number>0</number>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_17">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="BT_ModifyGraph">
-       <property name="text">
-        <string>Modify</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>110</y>
-      <width>261</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QComboBox" name="ComboBox_rangetype"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="BT_Clear">
        <property name="text">
         <string>Clear Data</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QSpinBox" name="spinBox_range_xvalue">
+         <property name="maximum">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="ComboBox_rangetype"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="BT_Clear">
+         <property name="text">
+          <string>Clear </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
