@@ -37,7 +37,7 @@ class MyApp(QMainWindow):
         self.ui.setupUi(self)
 
         # Initialize principal definitions
-        self.range_x_data = 10
+        self.range_x_data = 100
         self.axis_p_y = 5
         self.axis_n_y = 0
         self.factor_ksum = 0
@@ -52,7 +52,10 @@ class MyApp(QMainWindow):
         self.ui.ComboBox_Baud.setCurrentText("9600")
         #Data of serial COM
         self.data_1=0.0
-
+        #Set indicator level off not connected
+        self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
+"background-color:rgb(225, 225, 225);\n"
+"")
         #Configure Range Type of X axis
         self.ui.ComboBox_rangetype.addItems(['Static','AutoAdjustX'])
         self.ui.ComboBox_rangetype.setCurrentText("Static")
@@ -152,19 +155,23 @@ class MyApp(QMainWindow):
         self.serial.serial_com.port = port
         self.serial.serial_com.baudrate = baud
         self.serial.serial_connection()
-        print("Connect")
+        if(self.serial.alive):
+            self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
+            "background-color:rgb(0, 255, 0);\n"
+            "")
 
     def clickbutton_disconnect(self):
 
         self.serial.serial_disconnect()
-        print("Disconnect")
+        self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
+        "background-color:rgb(225, 225, 225);\n"
+        "")
 
     def clickbutton_refresh(self):
 
         self.serial.ports_availables()
         self.ui.ComboBox_PortSerial.clear()
         self.ui.ComboBox_PortSerial.addItems(self.serial.text_serial_ports)
-        print("Refresh")
 
     def clickbutton_cleardata(self):
         self.ui.TL_label_x.setText("")
@@ -192,7 +199,6 @@ class SplashScreen(QMainWindow):
         self.ui = Ui_SplashScreen()
         self.ui.setupUi(self)
         
-
         ## UI ==> INTERFACE CODES
         ########################################################################
         ## REMOVE TITLE BAR
