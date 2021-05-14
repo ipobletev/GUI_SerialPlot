@@ -22,6 +22,7 @@ from PyQt5.QtGui import *
 
 ###SME
 from SME_SerialCom import SME_Serial_Communication
+#from SME_DataLogger import SME_DataLogger
 
 ## ==> SPLASH SCREEN
 from UI_SplashScreen import *
@@ -164,7 +165,7 @@ class MyApp(QMainWindow):
 
         #Save data of serial COM
         self.data_1 = (float(data) * float(self.ui.TL_factor_multiplier.text())) + float(self.ui.TL_factor_sum.text())
-
+        
         #Process data
         if((len(self.y)>int(self.range_x_data)) and (self.range_type == "Static")):
 
