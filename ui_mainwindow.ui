@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1085</width>
-    <height>566</height>
+    <width>1173</width>
+    <height>658</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1134,6 +1134,22 @@ background-color:rgb(225, 225, 225);
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="10" column="3">
+       <widget class="QCheckBox" name="Check_datapoint">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Data Points</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

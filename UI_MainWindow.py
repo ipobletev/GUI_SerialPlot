@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1085, 566)
+        MainWindow.resize(1173, 658)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("SME-trans.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -461,6 +461,13 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addItem(spacerItem9, 0, 5, 7, 3)
         spacerItem10 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.gridLayout_4.addItem(spacerItem10, 9, 1, 1, 9)
+        self.Check_datapoint = QtWidgets.QCheckBox(self.centralwidget)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        self.Check_datapoint.setFont(font)
+        self.Check_datapoint.setObjectName("Check_datapoint")
+        self.gridLayout_4.addWidget(self.Check_datapoint, 10, 3, 1, 1)
         self.gridLayout_8.addLayout(self.gridLayout_4, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -491,6 +498,7 @@ class Ui_MainWindow(object):
         self.label_19.setText(_translate("MainWindow", "Cursor"))
         self.label_18.setText(_translate("MainWindow", "X"))
         self.label_20.setText(_translate("MainWindow", "Y"))
+        self.Check_datapoint.setText(_translate("MainWindow", "Data Points"))
 from pyqtgraph import PlotWidget
 
 

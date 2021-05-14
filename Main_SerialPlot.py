@@ -86,6 +86,8 @@ class MyApp(QMainWindow):
         self.ui.BT_Disconnect.clicked.connect(self.clickbutton_disconnect)
         self.ui.BT_Clear.clicked.connect(self.clickbutton_cleardata)
 
+        self.ui.Check_datapoint.stateChanged.connect(self.check_dataplot)
+
         # Set Up Plot Graph
         self.x=[self.range_x_data]
         self.y=[self.range_x_data]
@@ -108,9 +110,13 @@ class MyApp(QMainWindow):
         self.ui.graphicsView.setYRange(0, self.axis_p_y, padding=0)
         self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
         #Set legend plot
-        pen = pg.mkPen(color=(255, 0, 0))
+        self.pen = pg.mkPen(color=(255, 0, 0), width=4, style=QtCore.Qt.SolidLine)
         self.ui.graphicsView.setMouseEnabled(x=False, y=False)
-        self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=pen)
+        
+        self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen)
+        
+        #self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=pen, symbol='o', symbolPen ='r',symbolSize=5, symbolBrush=0.2, name ='blue')
+        #self.data_line.setSymbolPen(QColor(220, 30, 30))
 
         # Add crosshair lines.
         self.crosshair_v = pg.InfiniteLine(angle=90, movable=False)
@@ -124,12 +130,30 @@ class MyApp(QMainWindow):
         pos = e[0]
         if self.ui.graphicsView.sceneBoundingRect().contains(pos):
             mousePoint = self.ui.graphicsView.getPlotItem().vb.mapSceneToView(pos)
-            self.crosshair_v.setPos(mousePoint.x())
-            self.crosshair_h.setPos(mousePoint.y())
-            self.ui.TL_cursor_x.setText(str(format(mousePoint.x(), '.0f')))
-            self.ui.TL_cursor_y.setText(str(format(mousePoint.y(), '.1f')))
-            #print(str(mousePoint.x()) + "," + str(mousePoint.y()))\
+            self.mouse_x = format(mousePoint.x(), '.0f')
+
+            
+
+            if (int(self.mouse_x) < int(self.cont_x)):
+                self.crosshair_v.setPos(mousePoint.x())
+                self.ui.TL_cursor_x.setText(str(format(mousePoint.x(), '.0f')))
                 
+                if (int(self.cont_x) > int(self.range_x_data)):
+                    self.location_y = int(self.range_x_data) - int(self.cont_x) + int(self.mouse_x) + 1
+                else :
+                    self.location_y = int(self.mouse_x) + 1
+
+                self.crosshair_h.setPos(self.y[self.location_y])
+                self.ui.TL_cursor_y.setText(str(self.y[self.location_y]))
+                
+    def check_dataplot(self):
+        self.data_line.clear()
+        if(self.ui.Check_datapoint.checkState()):
+            self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen, symbol='o', symbolPen ='r',symbolSize=5, symbolBrush=0.2)
+            self.data_line.setSymbolPen(QColor(220, 30, 30))
+        else :
+            self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen)
+    
     def update_data(self,data):
 
         limit_axis_py = self.ui.spinBox_limit_py.value()
