@@ -112,6 +112,24 @@ class MyApp(QMainWindow):
         self.ui.graphicsView.setMouseEnabled(x=False, y=False)
         self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=pen)
 
+        # Add crosshair lines.
+        self.crosshair_v = pg.InfiniteLine(angle=90, movable=False)
+        self.crosshair_h = pg.InfiniteLine(angle=0, movable=False)
+        self.ui.graphicsView.addItem(self.crosshair_v, ignoreBounds=True)
+        self.ui.graphicsView.addItem(self.crosshair_h, ignoreBounds=True)
+        
+        self.proxy = pg.SignalProxy(self.ui.graphicsView.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+
+    def mouseMoved(self, e):
+        pos = e[0]
+        if self.ui.graphicsView.sceneBoundingRect().contains(pos):
+            mousePoint = self.ui.graphicsView.getPlotItem().vb.mapSceneToView(pos)
+            self.crosshair_v.setPos(mousePoint.x())
+            self.crosshair_h.setPos(mousePoint.y())
+            self.ui.TL_cursor_x.setText(str(format(mousePoint.x(), '.0f')))
+            self.ui.TL_cursor_y.setText(str(format(mousePoint.y(), '.1f')))
+            #print(str(mousePoint.x()) + "," + str(mousePoint.y()))\
+                
     def update_data(self,data):
 
         limit_axis_py = self.ui.spinBox_limit_py.value()
