@@ -12,4 +12,4 @@ Reconocimiento de conexion (ventana de alerta?)
 
 Arreglar
 	Datos basura al inicio
-	vector con contenido al inicio
+	Separacion marco de grafica

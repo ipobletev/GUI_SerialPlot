@@ -41,7 +41,7 @@ class MyApp(QMainWindow):
 
         # Initialize principal definitions
         self.range_x_data = 100
-        self.axis_p_y = 5
+        self.axis_p_y = 100
         self.axis_n_y = 0
         self.factor_ksum = 0
         self.factor_kmul = 1
@@ -94,12 +94,9 @@ class MyApp(QMainWindow):
         self.ui.Check_Record.stateChanged.connect(self.data_acquisition)
 
         # Set Up Plot Graph
-        self.x=[self.range_x_data]
-        self.y=[self.range_x_data]
+        self.x=[]
+        self.y=[]
         self.cont_x=0;
-        
-        print(self.x[0])
-        print(self.y)
 
         #Add Background colour to white
         self.ui.graphicsView.setBackground('w')
@@ -134,35 +131,7 @@ class MyApp(QMainWindow):
         self.ui.graphicsView.addItem(self.crosshair_h, ignoreBounds=True)
         
         self.proxy = pg.SignalProxy(self.ui.graphicsView.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
-
-    def mouseMoved(self, e):
-        pos = e[0]
-        if self.ui.graphicsView.sceneBoundingRect().contains(pos):
-            mousePoint = self.ui.graphicsView.getPlotItem().vb.mapSceneToView(pos)
-            self.mouse_x = format(mousePoint.x(), '.0f')
-
-            
-
-            if (int(self.mouse_x) < int(self.cont_x)):
-                self.crosshair_v.setPos(mousePoint.x())
-                self.ui.TL_cursor_x.setText(str(format(mousePoint.x(), '.0f')))
-                
-                if (int(self.cont_x) > int(self.range_x_data)):
-                    self.location_y = int(self.range_x_data) - int(self.cont_x) + int(self.mouse_x) + 1
-                else :
-                    self.location_y = int(self.mouse_x) + 1
-
-                self.crosshair_h.setPos(self.y[self.location_y])
-                self.ui.TL_cursor_y.setText(str(self.y[self.location_y]))
-                
-    def check_dataplot(self):
-        self.data_line.clear()
-        if(self.ui.Check_datapoint.checkState()):
-            self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen, symbol='o', symbolPen ='r',symbolSize=5, symbolBrush=0.2)
-            self.data_line.setSymbolPen(QColor(220, 30, 30))
-        else :
-            self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen)
-    
+   
     def update_data(self,data):
 
         limit_axis_py = self.ui.spinBox_limit_py.value()
@@ -189,22 +158,50 @@ class MyApp(QMainWindow):
         self.ui.TL_label_x.setText(str(format(self.cont_x, '.1f')))
         self.ui.TL_label_y.setText(str(format(self.data_1, '.3f')))
         self.ui.TL_label_time.setText(str(format(self.timeacquisition, '.1f')))
-
+     
         #Update Plot Graph
         self.data_line.setData(self.x, self.y)
-
+       
         #Save data acquisition
         if(self.flag_data_acquisition):
             self.data_logger.SME_DataLogger_SaveData([self.cont_data, format(self.data_1, '.3f')])
             self.cont_data+=1
-
+     
         self.cont_x+=1
+        
+    def mouseMoved(self, e):
+        pos = e[0]
+        if self.ui.graphicsView.sceneBoundingRect().contains(pos):
+            mousePoint = self.ui.graphicsView.getPlotItem().vb.mapSceneToView(pos)
+            self.mouse_x = format(mousePoint.x(), '.0f')
+
+            
+
+            if (int(self.mouse_x) < int(self.cont_x)):
+                self.crosshair_v.setPos(mousePoint.x())
+                self.ui.TL_cursor_x.setText(str(format(mousePoint.x(), '.0f')))
+                
+                if (int(self.cont_x) > int(self.range_x_data)):
+                    self.location_y = int(self.range_x_data) - int(self.cont_x) + int(self.mouse_x) + 1
+                else :
+                    self.location_y = int(self.mouse_x) + 1
+
+                self.crosshair_h.setPos(self.y[self.location_y])
+                self.ui.TL_cursor_y.setText(str(self.y[self.location_y]))
+
+    def check_dataplot(self):
+        self.data_line.clear()
+        if(self.ui.Check_datapoint.checkState()):
+            self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen, symbol='o', symbolPen ='r',symbolSize=5, symbolBrush=0.2)
+            self.data_line.setSymbolPen(QColor(220, 30, 30))
+        else :
+            self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen)
 
     def clickbutton_connect(self):
-        self.x *= 0
-        self.y *= 0
-        self.x=[self.range_x_data]
-        self.y=[self.range_x_data]
+        self.x.clear()
+        self.y.clear()
+        self.x=[]
+        self.y=[]
         index = self.ui.ComboBox_PortSerial.currentIndex()
         port = self.serial.serial_ports[index]
         baud = self.ui.ComboBox_Baud.currentText()
@@ -235,10 +232,10 @@ class MyApp(QMainWindow):
 
         #Get the new range value and clear plot x and y data
         self.range_x_data = self.ui.spinBox_range_xvalue.value()
-        self.x *= 0
-        self.y *= 0
-        self.x=[self.range_x_data]
-        self.y=[self.range_x_data]
+        self.x.clear()
+        self.y.clear()
+        self.x=[]
+        self.y=[]
 
         #Set limits 1________2
         limit_range_x_1 = self.cont_x
