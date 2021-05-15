@@ -1,5 +1,7 @@
 # GUI_SerialPlot
 
+Reconocimiento de conexion (ventana de alerta?)
+
 *exportar datos
 *Agregar coordenadas mouse
 *Agregar pointsgraph

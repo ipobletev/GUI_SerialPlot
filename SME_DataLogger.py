@@ -14,8 +14,8 @@ class SME_DataLogger:
         
         #Create folder if not exist
         if not os.path.exists(self.folder_name): os.mkdir(self.folder_name)
-        if not (os.path.isfile(self.file_name +'.csv')):
-            with open(self.file_name +'.csv','w',newline='') as csvfile:
+        if not (os.path.isfile(self.file_name)):
+            with open(self.file_name,'w',newline='') as csvfile:
                 #Create a file if not exist
                 fileWriter = csv.writer(csvfile,delimiter=',')
                 fileWriter.writerow(self.data_name)
@@ -23,6 +23,6 @@ class SME_DataLogger:
     def SME_DataLogger_SaveData(self,in_data):
         #Save data in file
         self.data = in_data
-        with open(self.file_name +'.csv','a+',newline='') as csvfile:
+        with open(self.file_name,'a+',newline='') as csvfile:
             fileWriter = csv.writer(csvfile,delimiter=',')
             fileWriter.writerow(self.data)

@@ -97,6 +97,9 @@ class MyApp(QMainWindow):
         self.x=[self.range_x_data]
         self.y=[self.range_x_data]
         self.cont_x=0;
+        
+        print(self.x[0])
+        print(self.y)
 
         #Add Background colour to white
         self.ui.graphicsView.setBackground('w')
@@ -111,6 +114,7 @@ class MyApp(QMainWindow):
         #Add grid
         self.ui.graphicsView.showGrid(x=True, y=True)
         #Set Range
+        
         self.ui.graphicsView.setXRange(0, self.range_x_data, padding=0)
         self.ui.graphicsView.setYRange(0, self.axis_p_y, padding=0)
         self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
@@ -191,7 +195,8 @@ class MyApp(QMainWindow):
 
         #Save data acquisition
         if(self.flag_data_acquisition):
-            self.data_logger.SME_DataLogger_SaveData([format(self.cont_x, '.1f'), format(self.data_1, '.3f')])
+            self.data_logger.SME_DataLogger_SaveData([self.cont_data, format(self.data_1, '.3f')])
+            self.cont_data+=1
 
         self.cont_x+=1
 
@@ -240,25 +245,25 @@ class MyApp(QMainWindow):
         limit_range_x_2 = limit_range_x_1 + self.range_x_data
         self.ui.graphicsView.setXRange(limit_range_x_1, limit_range_x_2 ,padding=0)
         self.ui.graphicsView.enableAutoRange(axis=None, enable=True, x=True, y=False)
-
         self.cont_x=0
         self.timeacquisition=0.0
 
     def data_acquisition(self):
-    
+        
         if(self.ui.Check_Record.checkState()):
             #Acquire Date
-            currentDate = datetime.now().strftime('%Y_%m_%d')
+            now = datetime.now()
+            currentDate = now.strftime("%m-%d-%Y_%H.%M.%S")
             #Variables and name to use
             folder_name = "Logger"
-            file_name = 'Logger/'+currentDate +'.csv'
+            file_name = 'Logger/'+ str(currentDate) +'.csv'
             data_name = ["x","y"]
             self.flag_data_acquisition = True
+            self.cont_data=0
+            self.data_logger = SME_DataLogger(folder_name,file_name,data_name,[self.cont_data,self.y])
 
-            self.data_logger = SME_DataLogger(folder_name,file_name,data_name,[self.x,self.y])
         else:
-            self.flag_data_acquisition = False
-            
+            self.flag_data_acquisition = False         
 
 class SplashScreen(QMainWindow):
     def __init__(self):
