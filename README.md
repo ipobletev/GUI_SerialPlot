@@ -1,7 +1,6 @@
 # GUI_SerialPlot
 
-Reconocimiento de conexion (ventana de alerta?)
-
+*Reconocimiento de conexion - ventana de alerta
 *exportar datos
 *Agregar coordenadas mouse
 *Agregar pointsgraph
@@ -12,5 +11,5 @@ Reconocimiento de conexion (ventana de alerta?)
 
 Arreglar
 	*Datos de la lista al comienzo
-	Datos basura serial al comienzo
+	Datos basura serial al comienzo (minimizado)
 	Separacion marco de grafica

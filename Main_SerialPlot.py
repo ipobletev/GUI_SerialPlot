@@ -11,7 +11,7 @@
 import sys
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsDropShadowEffect, QMessageBox
 from PyQt5.QtCore import Qt, QTimer
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
@@ -60,7 +60,13 @@ class MyApp(QMainWindow):
         #Set indicator level off not connected
         self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
 "background-color:rgb(225, 225, 225);\n"
-"")
+"")     
+        #Init timer for serial check
+        self.timer=QTimer()
+        self.timer.timeout.connect(self.check_serial_status)
+        self.timer.start(500)
+
+
         #Configure Range Type of X axis
         self.ui.ComboBox_rangetype.addItems(['Static','AutoAdjustX'])
         self.ui.ComboBox_rangetype.setCurrentText("Static")
@@ -131,7 +137,27 @@ class MyApp(QMainWindow):
         self.ui.graphicsView.addItem(self.crosshair_h, ignoreBounds=True)
         
         self.proxy = pg.SignalProxy(self.ui.graphicsView.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
-   
+    
+    def check_serial_status(self):
+        if(self.serial.alive.isSet()):
+            self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
+            "background-color:rgb(0, 255, 0);\n"
+            "")
+        else:
+            self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
+            "background-color:rgb(225, 225, 225);\n"
+            "")
+        
+        #if COM por is disconnect in full trasmission
+        if(self.serial.error == 2):
+            self.serial.error = 0
+            msg = QMessageBox()
+            msg.setWindowTitle("ALERT")
+            msg.setText("Serial port has been disconnected...")
+            msg.setIcon(QMessageBox.Critical)
+            msg.setStandardButtons(QMessageBox.Ok)
+            x = msg.exec_()
+
     def update_data(self,data):
 
         limit_axis_py = self.ui.spinBox_limit_py.value()
@@ -168,7 +194,7 @@ class MyApp(QMainWindow):
             self.cont_data+=1
      
         self.cont_x+=1
-        
+    
     def mouseMoved(self, e):
         pos = e[0]
         if self.ui.graphicsView.sceneBoundingRect().contains(pos):
@@ -185,9 +211,11 @@ class MyApp(QMainWindow):
                     self.location_y = int(self.range_x_data) - int(self.cont_x) + int(self.mouse_x) + 1
                 else :
                     self.location_y = int(self.mouse_x) + 1
-
-                self.crosshair_h.setPos(self.y[self.location_y])
-                self.ui.TL_cursor_y.setText(str(self.y[self.location_y]))
+                try:
+                    self.crosshair_h.setPos(self.y[self.location_y])
+                    self.ui.TL_cursor_y.setText(str(self.y[self.location_y]))
+                except:
+                    pass
 
     def check_dataplot(self):
         self.data_line.clear()
@@ -198,30 +226,18 @@ class MyApp(QMainWindow):
             self.data_line =  self.ui.graphicsView.plot(self.x, self.y, pen=self.pen)
 
     def clickbutton_connect(self):
-        self.x.clear()
-        self.y.clear()
-        self.x=[]
-        self.y=[]
+        self.clickbutton_cleardata()
         index = self.ui.ComboBox_PortSerial.currentIndex()
         port = self.serial.serial_ports[index]
         baud = self.ui.ComboBox_Baud.currentText()
         self.serial.serial_com.port = port
         self.serial.serial_com.baudrate = baud
         self.serial.serial_connection()
-        if(self.serial.alive):
-            self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
-            "background-color:rgb(0, 255, 0);\n"
-            "")
 
     def clickbutton_disconnect(self):
-
         self.serial.serial_disconnect()
-        self.ui.Indicador.setStyleSheet("border-radius:130px;\n"
-        "background-color:rgb(225, 225, 225);\n"
-        "")
 
     def clickbutton_refresh(self):
-
         self.serial.ports_availables()
         self.ui.ComboBox_PortSerial.clear()
         self.ui.ComboBox_PortSerial.addItems(self.serial.text_serial_ports)
