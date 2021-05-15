@@ -20,9 +20,11 @@ from PyQt5 import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+from datetime import datetime
+
 ###SME
 from SME_SerialCom import SME_Serial_Communication
-#from SME_DataLogger import SME_DataLogger
+from SME_DataLogger import *
 
 ## ==> SPLASH SCREEN
 from UI_SplashScreen import *
@@ -44,6 +46,8 @@ class MyApp(QMainWindow):
         self.factor_ksum = 0
         self.factor_kmul = 1
         self.factor_time = 1
+
+        self.flag_data_acquisition=False
 
         #Configure Serial COM
         self.serial = SME_Serial_Communication()
@@ -86,8 +90,8 @@ class MyApp(QMainWindow):
         self.ui.BT_Connect.clicked.connect(self.clickbutton_connect)
         self.ui.BT_Disconnect.clicked.connect(self.clickbutton_disconnect)
         self.ui.BT_Clear.clicked.connect(self.clickbutton_cleardata)
-
         self.ui.Check_datapoint.stateChanged.connect(self.check_dataplot)
+        self.ui.Check_Record.stateChanged.connect(self.data_acquisition)
 
         # Set Up Plot Graph
         self.x=[self.range_x_data]
@@ -185,6 +189,10 @@ class MyApp(QMainWindow):
         #Update Plot Graph
         self.data_line.setData(self.x, self.y)
 
+        #Save data acquisition
+        if(self.flag_data_acquisition):
+            self.data_logger.SME_DataLogger_SaveData([format(self.cont_x, '.1f'), format(self.data_1, '.3f')])
+
         self.cont_x+=1
 
     def clickbutton_connect(self):
@@ -236,6 +244,22 @@ class MyApp(QMainWindow):
         self.cont_x=0
         self.timeacquisition=0.0
 
+    def data_acquisition(self):
+    
+        if(self.ui.Check_Record.checkState()):
+            #Acquire Date
+            currentDate = datetime.now().strftime('%Y_%m_%d')
+            #Variables and name to use
+            folder_name = "Logger"
+            file_name = 'Logger/'+currentDate +'.csv'
+            data_name = ["x","y"]
+            self.flag_data_acquisition = True
+
+            self.data_logger = SME_DataLogger(folder_name,file_name,data_name,[self.x,self.y])
+        else:
+            self.flag_data_acquisition = False
+            
+
 class SplashScreen(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -282,7 +306,6 @@ class SplashScreen(QMainWindow):
 
         # INCREASE COUNTER
         self.counter += 1    
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

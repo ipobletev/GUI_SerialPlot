@@ -1,7 +1,6 @@
 # GUI_SerialPlot
 
-exportar datos
-
+*exportar datos
 *Agregar coordenadas mouse
 *Agregar pointsgraph
 *agregar estado de conexion
