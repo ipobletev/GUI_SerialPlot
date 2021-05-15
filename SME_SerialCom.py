@@ -29,6 +29,7 @@ class SME_Serial_Communication(QObject):
             pass
 
         if(self.serial_com.is_open):
+            self.serial_com.flush()
             self.start_thread()
     
     def serial_disconnect(self):

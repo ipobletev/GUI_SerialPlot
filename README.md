@@ -11,5 +11,6 @@ Reconocimiento de conexion (ventana de alerta?)
 *pantalla statica al mover maximizar quede fijo
 
 Arreglar
-	Datos basura al inicio
+	*Datos de la lista al comienzo
+	Datos basura serial al comienzo
 	Separacion marco de grafica

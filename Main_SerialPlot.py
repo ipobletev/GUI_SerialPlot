@@ -40,8 +40,8 @@ class MyApp(QMainWindow):
         self.ui.setupUi(self)
 
         # Initialize principal definitions
-        self.range_x_data = 100
-        self.axis_p_y = 100
+        self.range_x_data = 1000
+        self.axis_p_y = 5
         self.axis_n_y = 0
         self.factor_ksum = 0
         self.factor_kmul = 1
