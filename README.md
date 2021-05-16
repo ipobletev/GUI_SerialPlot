@@ -1,15 +1,33 @@
-# GUI_SerialPlot
+# SME - SerialPlot
 
-*Reconocimiento de conexion - ventana de alerta
-*exportar datos
-*Agregar coordenadas mouse
-*Agregar pointsgraph
-*agregar estado de conexion
-*agregar icono de ventana
-*agregar nombre de pagina
-*pantalla statica al mover maximizar quede fijo
+<p align="center">
+  <img src="https://i.postimg.cc/SsDPs73D/Sin-t-tulo-2.png" />
+</p>
 
-Arreglar
-	*Datos de la lista al comienzo
-	Datos basura serial al comienzo (minimizado)
-	Separacion marco de grafica
+#
+
+Simple program to graph one data from the serial port.
+
+- [x] Features
+	- [x] Single plot data 
+	- [x] Axis Y adjust
+	- [x] Change the X of data range 
+	- [x] Check serial com connection via timer
+	- [x] Pop up windows if serial com is disconnected
+	- [x] Export data in CSV format (Start: Record)
+	- [x] Cursor with data location 
+	- [x] Points Graph mode for each data (Data Points)
+	- [x] Connection Status
+	- [x] Icon and name for app windows
+	- [x] Screen Graph with Static and AutoXAdjust Mode.
+	- [x] Data sum and multiplier alternative (Data = (Data * Kx) + K+)
+	- [x] T_K parameter multiplier with counter to adquire the time (Counter * TK = TIME[s])
+- [ ] To Fix
+    - [ ] Max Y axis is a little far away of plot graph
+    - [ ] Sometimes serial com have a trash values in the beginning (flush?) 
+
+
+
+![](https://i.postimg.cc/TwWR3QJz/SME-Serial-Plot.png)
+
+
