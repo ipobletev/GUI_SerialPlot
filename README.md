@@ -1,5 +1,11 @@
 # SME - SerialPlot
 
+<p align="center">
+  <img src="https://i.postimg.cc/SsDPs73D/Sin-t-tulo-2.png" />
+</p>
+
+#
+
 Simple program to graph one data from the serial port.
 
 - [x] Features
@@ -20,13 +26,7 @@ Simple program to graph one data from the serial port.
     - [ ] Max Y axis is a little far away of plot graph
     - [ ] Sometimes serial com have a trash values in the beginning (flush?) 
 
-#
 
-<p align="center">
-  <img src="https://i.postimg.cc/SsDPs73D/Sin-t-tulo-2.png" />
-</p>
-
-#
 
 ![](https://i.postimg.cc/TwWR3QJz/SME-Serial-Plot.png)
 
