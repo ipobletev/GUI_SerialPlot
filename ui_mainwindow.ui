@@ -1197,7 +1197,7 @@ background-color:rgb(225, 225, 225);
        </spacer>
       </item>
       <item row="10" column="2">
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="Check_FFT">
         <property name="font">
          <font>
           <pointsize>10</pointsize>
@@ -1207,6 +1207,13 @@ background-color:rgb(225, 225, 225);
         </property>
         <property name="text">
          <string>FFT</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="2">
+       <widget class="QPushButton" name="BT_Pause">
+        <property name="text">
+         <string>Pause/Resume</string>
         </property>
        </widget>
       </item>

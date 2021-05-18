@@ -51,7 +51,7 @@ class MyApp(QMainWindow):
         self.factor_time = 1
 
         self.flag_data_acquisition=False
-
+        self.flag_pause = False
         #Configure Serial COM
         self.serial = SME_Serial_Communication()
         self.serial.ports_availables()
@@ -136,6 +136,8 @@ class MyApp(QMainWindow):
         self.ui.BT_Clear.clicked.connect(self.clickbutton_cleardata)
         self.ui.Check_datapoint.stateChanged.connect(self.check_dataplot)
         self.ui.Check_Record.stateChanged.connect(self.data_acquisition)
+        self.ui.Check_FFT.stateChanged.connect(self.check_plot_fft)
+        self.ui.BT_Pause.clicked.connect(self.clickbutton_pause)
 
     #Method: Check serial status via TIMER and execute a pop up windows in case a error
     def check_serial_status(self):
@@ -158,39 +160,49 @@ class MyApp(QMainWindow):
             msg.setStandardButtons(QMessageBox.Ok)
             x = msg.exec_()
 
+    def clickbutton_pause(self):
+        if (self.flag_pause == True):
+            self.flag_pause = False
+        else:
+            self.flag_pause = True
+    
     #Method: If SME_SerialCom acquire data then this function will execute and give data value
     def update_data(self,data):
-
-        #Set Y axis
-        limit_axis_py = self.ui.spinBox_limit_py.value()
-        limit_axis_ny = self.ui.spinBox_limit_ny.value()
-        self.range_type = self.ui.ComboBox_rangetype.currentText()
-        self.ui.graphicsView.setYRange(limit_axis_ny, limit_axis_py, padding=0)
-
-        #Store data serial COM
-        self.data_1 = (float(data) * float(self.ui.TL_factor_multiplier.text())) + float(self.ui.TL_factor_sum.text())
-        self.timeacquisition = float(self.ui.TL_factor_time.text()) * float(self.cont_x)
-
-        #Process data into the visual graph
-        if((len(self.y)>int(self.range_x_data)) and (self.range_type == "Static")):
-
-            self.x = self.x[1:]  # Remove the first X element.
-            self.y = self.y[1:]  # Remove the first Y element.
-
-        self.x.append(self.cont_x)  # Add a new value 1 higher than the last.
-        self.y.append(self.data_1)  # Add a new value.
         
-        #Update Text Label with acquisition data
-        self.ui.TL_label_x.setText(str(format(self.cont_x, '.1f')))
-        self.ui.TL_label_y.setText(str(format(self.data_1, '.3f')))
-        self.ui.TL_label_time.setText(str(format(self.timeacquisition, '.1f')))
-        #Update Plot Graph
-        self.data_line.setData(self.x, self.y)
-        #Store in CSV data acquisition, if is the case.
-        if(self.flag_data_acquisition):
-            self.data_logger.SME_DataLogger_SaveData([self.cont_data, format(self.data_1, '.3f')])
-            self.cont_data+=1
-        self.cont_x+=1
+        #Set Y axis
+        if(self.ui.Check_FFT.checkState()):
+            self.ui.graphicsView.setYRange(0, 1, padding=0)
+        else:
+            limit_axis_py = self.ui.spinBox_limit_py.value()
+            limit_axis_ny = self.ui.spinBox_limit_ny.value()
+            self.ui.graphicsView.setYRange(limit_axis_ny, limit_axis_py, padding=0)
+        if(self.flag_pause == False):
+            self.range_type = self.ui.ComboBox_rangetype.currentText()
+            #Store data serial COM
+            self.data_1 = (float(data) * float(self.ui.TL_factor_multiplier.text())) + float(self.ui.TL_factor_sum.text())
+            self.timeacquisition = float(self.ui.TL_factor_time.text()) * float(self.cont_x)
+
+            #Process data into the visual graph
+            if((len(self.y)>int(self.range_x_data)) and (self.range_type == "Static")):
+
+                self.x = self.x[1:]  # Remove the first X element.
+                self.y = self.y[1:]  # Remove the first Y element.
+
+            self.x.append(self.cont_x)  # Add a new value 1 higher than the last.
+            self.y.append(self.data_1)  # Add a new value.
+        
+            #Update Text Label with acquisition data
+            self.ui.TL_label_x.setText(str(format(self.cont_x, '.1f')))
+            self.ui.TL_label_y.setText(str(format(self.data_1, '.3f')))
+            self.ui.TL_label_time.setText(str(format(self.timeacquisition, '.1f')))
+            #Update Plot Graph
+            self.data_line.setData(self.x, self.y)
+
+            #Store in CSV data acquisition, if is the case.
+            if(self.flag_data_acquisition):
+                self.data_logger.SME_DataLogger_SaveData([self.cont_data, format(self.data_1, '.3f')])
+                self.cont_data+=1
+            self.cont_x+=1
     
     #Detect every mouse change in the plot graph and calculate the data plot values
     def mouseMoved(self, e):
@@ -212,7 +224,18 @@ class MyApp(QMainWindow):
                     self.ui.TL_cursor_y.setText(str(self.y[self.location_y]))
                 except:
                     pass
-    
+    def check_plot_fft(self):
+        if(self.ui.Check_FFT.checkState()):
+            self.data_line.setFftMode(True)
+             #Set Y axis
+            self.ui.graphicsView.setYRange(0, 1, padding=0)
+        else:
+            self.data_line.setFftMode(False)
+            #Set Y axis
+            limit_axis_py = self.ui.spinBox_limit_py.value()
+            limit_axis_ny = self.ui.spinBox_limit_ny.value()
+            self.ui.graphicsView.setYRange(limit_axis_ny, limit_axis_py, padding=0)
+
     #Check dataplot and change the graph with points
     def check_dataplot(self):
         self.data_line.clear()
