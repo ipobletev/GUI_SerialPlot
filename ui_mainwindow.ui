@@ -1196,6 +1196,20 @@ background-color:rgb(225, 225, 225);
         </property>
        </spacer>
       </item>
+      <item row="10" column="2">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>FFT</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

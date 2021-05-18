@@ -18,7 +18,7 @@ class SME_Serial_Communication(QObject):
         self.serial_com = serial.Serial()
         self.serial_com.timeout = 0.5
 
-        self.baudrates = ['1200','2400','4800','9600','19200','38400','115200']
+        self.baudrates = ['1200','2400','4800','9600','19200','38400','115200','250000']
         self.serial_ports = []
         self.text_serial_ports = []
 

@@ -124,6 +124,10 @@ class MyApp(QMainWindow):
         self.ui.graphicsView.addItem(self.crosshair_v, ignoreBounds=True)
         self.ui.graphicsView.addItem(self.crosshair_h, ignoreBounds=True)
         self.proxy = pg.SignalProxy(self.ui.graphicsView.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved)
+        #Disable menu
+        self.ui.graphicsView.setMenuEnabled(False)
+        #disable A button of graph
+        self.ui.graphicsView.hideButtons()
         
         #Configure the conects of Buttons and Methods
         self.ui.BT_Refresh.clicked.connect(self.clickbutton_refresh)

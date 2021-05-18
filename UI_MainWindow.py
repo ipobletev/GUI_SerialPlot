@@ -489,6 +489,14 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.label_12, 12, 3, 1, 1)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_4.addItem(spacerItem10, 13, 1, 1, 9)
+        self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.checkBox.setFont(font)
+        self.checkBox.setObjectName("checkBox")
+        self.gridLayout_4.addWidget(self.checkBox, 10, 2, 1, 1)
         self.gridLayout_8.addLayout(self.gridLayout_4, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -521,6 +529,7 @@ class Ui_MainWindow(object):
         self.label_16.setText(_translate("MainWindow", "Range X"))
         self.Check_datapoint.setText(_translate("MainWindow", "Data Points"))
         self.label_12.setText(_translate("MainWindow", "Kx"))
+        self.checkBox.setText(_translate("MainWindow", "FFT"))
 from pyqtgraph import PlotWidget
 
 
