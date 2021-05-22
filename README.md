@@ -22,6 +22,10 @@ Simple program to graph one data from the serial port.
 	- [x] Screen Graph with Static and AutoXAdjust Mode.
 	- [x] Data sum and multiplier alternative (Data = (Data * Kx) + K+)
 	- [x] T_K parameter multiplier with counter to adquire the time (Counter * TK = TIME[s])
+	- [ ] FFT Feature
+		- [ ] Range and X axys values
+		- [x] FFT visualization 
+	- [ ] Multiples signals visualizations	
 - [ ] To Fix
     - [ ] Max Y axis is a little far away of plot graph
     - [ ] Sometimes serial com have a trash values in the beginning (flush?) 
